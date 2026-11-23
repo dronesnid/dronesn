@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Signing in - Drone Sarana Nusantara</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #10161a; color: #e8efe9;
+         font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 420px; padding: 24px; text-align: center; }
+  a { color: #5fd3a0; }
+</style>
+</head>
+<body>
+<main>
+  <h1 style="font-size:20px">Finishing TikTok sign-in…</h1>
+  <p id="msg">You will be returned to the DroneSN dashboard on this computer.</p>
+</main>
+<script>
+  // TikTok sends the sign-in result here (https). Pass only the sign-in fields on to the
+  // DroneSN dashboard running on this computer.
+  (function () {
+    var masuk = new URLSearchParams(location.search), keluar = new URLSearchParams();
+    ["code", "state", "scopes", "error", "error_description"].forEach(function (k) {
+      if (masuk.has(k)) keluar.set(k, masuk.get(k));
+    });
+    var tujuan = "http://localhost:8765/callback/?" + keluar.toString();
+    document.getElementById("msg").innerHTML =
+      'Returning to the dashboard… If nothing happens, make sure the dashboard is open and ' +
+      '<a id="lanjut">click here</a>.';
+    document.getElementById("lanjut").href = tujuan;
+    location.replace(tujuan);
+  })();
+</script>
+</body>
+</html>
